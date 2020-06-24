@@ -49,8 +49,10 @@ if __name__ == "__main__":
     quantisation_factor = 0.003
     qsrlib = QSRlib()
 
-    qtc_c_state_publisher = rospy.Publisher('points_to_qtc_c_state/qtc_c_state', String, queue_size=1)
+    robot_id = rospy.get_param("/QTCStatePublisherNode/robot_id")
+    
+    qtc_c_state_publisher = rospy.Publisher("/robot"+str(robot_id)+"/qsr/qtc_c_state", String, queue_size=1)
     rospy.init_node("points_to_qtc_c_state")
-    rospy.Subscriber("/robot4/qsr/qtc_points", Float64MultiArray, points_to_qtc_c)
+    rospy.Subscriber("/robot"+str(robot_id)+"/qsr/qtc_points", Float64MultiArray, points_to_qtc_c)
 
     rospy.spin()

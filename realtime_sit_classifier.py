@@ -66,6 +66,9 @@ def num_seq_to_QTC_C_seq(num_seq):
 
 # Classify function
 def classify_QTC_seqs(e_seqs):
+    global rejection_KL_thresh
+    print(rejection_KL_thresh)
+
     ll_pb_l = pblHMM.data_estimate(e_seqs)
 
     ll_pb_r = pbrHMM.data_estimate(e_seqs)
@@ -81,6 +84,9 @@ def classify_QTC_seqs(e_seqs):
     lls = [ll_pb_l, ll_pb_r, ll_rotl, ll_rotr, ll_pcl, ll_pcr]
     class_id = np.argmax(lls)
     KL = entropy(lls, [1 / len(lls) for ll in lls])
+    if rejection_KL_thresh is None:
+        rejection_KL_thresh = 0.018
+
     if KL > rejection_KL_thresh:
         pred = classes[class_id]
     else:
@@ -98,12 +104,39 @@ eg_seq = pcrHMM.generate(5)[0]
 # print(classify_QTC_seqs(np.array([eg_seq])))
 
 ros = roslibpy.Ros(host="localhost", port=9090)
-ros.run()
 
-print("ROS connected:", ros.is_connected)
+# Default topic names
+robot_id = 4
+qtcTopic = roslibpy.Topic(ros, "/robot"+str(robot_id)+"/qsr/qtc_c_state", "std_msgs/String")
+sitTopic = roslibpy.Topic(ros, "/robot"+str(robot_id)+"/qsr/situation_predictions", "std_msgs/String")
 
-qtcTopic = roslibpy.Topic(ros, "/points_to_qtc_c_state/qtc_c_state", "std_msgs/String")
-sitTopic = roslibpy.Topic(ros, "/robot4/qsr/situation_predictions", "std_msgs/String")
+def get_params():
+    print("ROS connected:", ros.is_connected)
+    robot_id_param = roslibpy.Param(ros, "/QTCStatePublisherNode/robot_id")
+
+    global robot_id
+    global qtcTopic
+    global sitTopic
+    global rejection_KL_thresh
+
+    robot_id = robot_id_param.get()
+    print(str(robot_id))
+
+    rejection_thresh_param = roslibpy.Param(ros, "/robot"+str(robot_id)+"/qsr/situation_rejection_threshold")
+    rejection_KL_thresh = rejection_thresh_param.get()
+
+    qtcTopic = roslibpy.Topic(ros, "/robot"+str(robot_id)+"/qsr/qtc_c_state", "std_msgs/String")
+    sitTopic = roslibpy.Topic(ros, "/robot"+str(robot_id)+"/qsr/situation_predictions", "std_msgs/String")
+
+    print(qtcTopic.name)
+    print(sitTopic.name)
+
+    # Current and recent human and then robot positions and angles:
+    # [xh0, yh0, hh0, xh1, yh1, hh1, xr0, yr0, hr0, xr1, yr1, hr1]
+    qtcTopic.subscribe(lambda message: qtc_update_callback(message))
+    
+
+ros.on_ready(get_params)
 qtc_seq = []
 prev_time = time.time()
 
@@ -111,10 +144,14 @@ prev_time = time.time()
 def qtc_update_callback(qtc_state_msg):
     global prev_time
     global qtc_seq
+    print(qtcTopic.name)
+    print(sitTopic.name)
+    
     qtc_state_str = qtc_state_msg['data']
     current_time = time.time()
     if current_time - prev_time > 3:
         qtc_seq = []
+        sitTopic.publish(roslibpy.Message({'data': "None"}))
 
     if len(qtc_seq) == 0:
         qtc_seq.append(qtc_state_str)
@@ -128,7 +165,4 @@ def qtc_update_callback(qtc_state_msg):
 
     prev_time = current_time
 
-
-# Current and recent human and then robot positions and angles:
-# [xh0, yh0, hh0, xh1, yh1, hh1, xr0, yr0, hr0, xr1, yr1, hr1]
-qtcTopic.subscribe(lambda message: qtc_update_callback(message))
+ros.run_forever()
