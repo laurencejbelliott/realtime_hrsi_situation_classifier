@@ -7,18 +7,17 @@ from itertools import combinations
 from scipy.stats import entropy
 
 # Load per-situation HMMs
-pblHMM = hmms.DtHMM.from_file("../Models/pblHMM_k_3_partial.npz")
-pbrHMM = hmms.DtHMM.from_file("../Models/pbrHMM_k_3_partial.npz")
-rotlHMM = hmms.DtHMM.from_file("../Models/rotlHMM_k_3_partial.npz")
-rotrHMM = hmms.DtHMM.from_file("../Models/rotrHMM_k_3_partial.npz")
-pclHMM = hmms.DtHMM.from_file("../Models/pclHMM_k_3_partial.npz")
-pcrHMM = hmms.DtHMM.from_file("../Models/pcrHMM_k_3_partial.npz")
+pblHMM = hmms.DtHMM.from_file("../Models/pblHMM_k_3_study_partial.npz")
+pbrHMM = hmms.DtHMM.from_file("../Models/pbrHMM_k_3_study_partial.npz")
+rotlHMM = hmms.DtHMM.from_file("../Models/rotlHMM_k_3_study_partial.npz")
+rotrHMM = hmms.DtHMM.from_file("../Models/rotrHMM_k_3_study_partial.npz")
+pclHMM = hmms.DtHMM.from_file("../Models/pclHMM_k_3_study_partial.npz")
+pcrHMM = hmms.DtHMM.from_file("../Models/pcrHMM_k_3_study_partial.npz")
 
 
 # Configuration parameters
-rejection_KL_thresh = 0.018
+rejection_KL_thresh = 0.025
 N_nodes = 81
-random_state = 2
 
 classes = ["PBL", "PBR", "ROTL", "ROTR", "PCL", "PCR"]
 
