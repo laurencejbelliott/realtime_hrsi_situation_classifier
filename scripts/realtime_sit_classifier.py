@@ -3,16 +3,19 @@ import roslibpy
 import hmms
 import time
 import numpy as np
+import os
 from itertools import combinations
 from scipy.stats import entropy
 
+working_dir = os.path.dirname(os.path.realpath(__file__))
+
 # Load per-situation HMMs
-pblHMM = hmms.DtHMM.from_file("../Models/pblHMM_k_3_study_partial.npz")
-pbrHMM = hmms.DtHMM.from_file("../Models/pbrHMM_k_3_study_partial.npz")
-rotlHMM = hmms.DtHMM.from_file("../Models/rotlHMM_k_3_study_partial.npz")
-rotrHMM = hmms.DtHMM.from_file("../Models/rotrHMM_k_3_study_partial.npz")
-pclHMM = hmms.DtHMM.from_file("../Models/pclHMM_k_3_study_partial.npz")
-pcrHMM = hmms.DtHMM.from_file("../Models/pcrHMM_k_3_study_partial.npz")
+pblHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pblHMM_k_3_study_partial.npz")
+pbrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pbrHMM_k_3_study_partial.npz")
+rotlHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotlHMM_k_3_study_partial.npz")
+rotrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotrHMM_k_3_study_partial.npz")
+pclHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pclHMM_k_3_study_partial.npz")
+pcrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pcrHMM_k_3_study_partial.npz")
 
 
 # Configuration parameters
