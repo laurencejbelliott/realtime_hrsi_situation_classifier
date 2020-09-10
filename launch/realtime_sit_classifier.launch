@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- launcher to programatically record topics involved in qtc online classification -->
+
+<launch>
+    <arg name="robot_id" default="5"/>
+    <param name="QTCStatePublisherNode/human_detection_method" value="peopletracker"/>
+    
+    <!-- derived params -->
+    <arg name="prefix" default="robot$(arg robot_id)"/>
+    <param name="QTCStatePublisherNode/robot_id" value="$(arg robot_id)"/>
+    <param name="QTCStatePublisherNode/peopletracker_topic" value="/$(arg prefix)/people_tracker_filtered/positions"/>
+    <param name="$(arg prefix)/qsr/situation_rejection_threshold" value="0.025"/>
+    
+
+    <!-- Run required nodes -->
+    <node required="true" name="QTCStatePublisherNode" pkg="iliad_hrsi" type="QTC_generator.py"/>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"></include>
+    <group ns="$(arg prefix)/qsr">
+        <node required="true" name="realtime_sit_classifier" pkg="realtime_hrsi_situation_classifier" type="realtime_sit_classifier.py"/>
+    </group>
+</launch>
+ 
