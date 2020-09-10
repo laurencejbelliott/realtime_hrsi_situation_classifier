@@ -10,12 +10,12 @@ from scipy.stats import entropy
 working_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Load per-situation HMMs
-pblHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pblHMM_k_3_study_partial.npz")
-pbrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pbrHMM_k_3_study_partial.npz")
-rotlHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotlHMM_k_3_study_partial.npz")
-rotrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotrHMM_k_3_study_partial.npz")
-pclHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pclHMM_k_3_study_partial.npz")
-pcrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pcrHMM_k_3_study_partial.npz")
+pblHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pblHMM_k_3_hf.npz")
+pbrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pbrHMM_k_3_hf.npz")
+rotlHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotlHMM_k_3_hf.npz")
+rotrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/rotrHMM_k_3_hf.npz")
+pclHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pclHMM_k_3_hf.npz")
+pcrHMM = hmms.DtHMM.from_file(working_dir+"/../Models/pcrHMM_k_3_hf.npz")
 
 
 # Configuration parameters
