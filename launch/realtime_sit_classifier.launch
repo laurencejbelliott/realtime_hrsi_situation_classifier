@@ -9,7 +9,7 @@
     <arg name="prefix" default="robot$(arg robot_id)"/>
     <param name="QTCStatePublisherNode/robot_id" value="$(arg robot_id)"/>
     <param name="QTCStatePublisherNode/peopletracker_topic" value="/$(arg prefix)/people_tracker_filtered/positions"/>
-    <param name="$(arg prefix)/qsr/situation_rejection_threshold" value="0.025"/>
+    <param name="$(arg prefix)/qsr/situation_rejection_threshold" value="0.01"/>
     
 
     <!-- Run required nodes -->
