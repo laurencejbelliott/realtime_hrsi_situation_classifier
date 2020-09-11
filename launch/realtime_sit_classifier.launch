@@ -3,11 +3,13 @@
 
 <launch>
     <arg name="robot_id" default="5"/>
+    <arg name="sampling_time" default="0.1"/>
     <param name="QTCStatePublisherNode/human_detection_method" value="peopletracker"/>
     
     <!-- derived params -->
     <arg name="prefix" default="robot$(arg robot_id)"/>
     <param name="QTCStatePublisherNode/robot_id" value="$(arg robot_id)"/>
+    <param name="QTCStatePublisherNode/sampling_time" value="$(arg sampling_time)"/>
     <param name="QTCStatePublisherNode/peopletracker_topic" value="/$(arg prefix)/people_tracker_filtered/positions"/>
     <param name="$(arg prefix)/qsr/situation_rejection_threshold" value="0.01"/>
     
