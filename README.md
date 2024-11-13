@@ -1,5 +1,5 @@
 # Real-time HRSI Situation Classifier
-A ROS kinetic package for realtime classification of situation in human-robot spatial interaction. To be used as part of the ILIAD warehouse robot software stack.
+A ROS kinetic package for realtime classification of situation in human-robot spatial interaction. Part of the ILIAD warehouse robot software stack.
 
 ## Setup
 Requires ROS kinetic, Ubuntu 16.04, and python3.5
